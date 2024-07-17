@@ -79,7 +79,7 @@ library(car)
 subsets(regsubsets.out,statistic="adjr2",legend="bottom",main="Adjusted R^2")
 ```
 
-Using the above chart, we can see that the best two regressor models are Height and Weight. This model is the best for the perch data, as well as for the two element model. 
+Using the above chart, we can see that the best two regressor models are Height and Width. This model is the best for the perch data, as well as for the two element model. 
 
 ## Pike
   
@@ -114,8 +114,25 @@ The best two element model on the given chart is L1-L3, with an Adjusted R Squar
   
 ## Roach
 
+```{r}
+fullup <- lm(Weight~ .,data=Roach)
+summary.lm(fullup)
+```
+```{r}
+library(leaps)
+regsubsets.out <-
+    regsubsets(Weight ~ .,
+               data = Roach,
+               nbest = 1,       # 1 best model for each number of predictors
+               nvmax = NULL,    # NULL for no limit on number of variables
+               force.in = NULL, force.out = NULL,
+               method = "exhaustive")
 
-
+summary.out <- summary(regsubsets.out)
+as.data.frame(summary.out$outmat)
+library(car)
+subsets(regsubsets.out,statistic="adjr2",legend="bottomleft",main="Adjusted R^2")
+```
 ### Best Models
 
 This chart probides that the best overall model is L3 and Width.
